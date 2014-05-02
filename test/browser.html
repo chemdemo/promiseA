@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>promise demo</title>
+<style type="text/css">
+    h1, p, ul, li {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+</head>
+<body>
+    <h1>promise demo</h1>
+
+    <p>
+        <input id="url" value="http://img1.ph.126.net/6CSb5qM-iU85XEsEmxFDTQ==/6599320466959164391.jpg" />
+        <button id="btn">get url</button>
+    </p>
+
+    <ul id="list"></ul>
+
+<script src="../lib/Promise.js"></script>
+<script src="browser.js"></script>
+<script>
+function $(id) {return document.querySelector(id);};
+function on(el, evt, fn) {el.addEventListener(evt, fn);};
+
+window.onload = function() {
+    function addImg(img) {
+        var li = document.createElement('li');
+
+        li.appendChild(img);
+
+        $('#list').appendChild(li);
+    };
+
+    function workflow() {
+        getImg($('#url').value)
+            .then(sleep(1000))
+            .then(addImg);
+    };
+
+    on($('#btn'), 'click', workflow);
+};
+</script>
+</body>
+</html>

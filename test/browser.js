@@ -1,9 +1,9 @@
 // for browser
-var getImg = function(url) {
+function getImg(url) {
     var p = new Promise();
     var img = new Image();
 
-    img.load = function() {
+    img.onload = function() {
         p.resolve(this);
     }
 
@@ -11,7 +11,7 @@ var getImg = function(url) {
         p.reject(err);
     }
 
-    img.src = url;
+    img.src = url + '?_t=' + Date.now();
 
     return p;
 };
@@ -21,9 +21,9 @@ function upload(params) {
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
 
-    fd.append('url', params.url);
+    fd.append('data', params.data);
 
-    xhr.onload = function() {
+    xhr.onload = function(res) {
         p.resolve(res);
     }
 
@@ -31,21 +31,24 @@ function upload(params) {
         p.reject(new Error('abort'));
     };
 
-    xhr.onerror = function() {
-        p.reject(new Error('error'));
+    xhr.onerror = function(err) {
+        p.reject(err);
     };
 
-    xhr.open('POST', params.target);
+    xhr.open('POST', params.url);
     xhr.send(fd);
 
     return p;
 };
 
-// getImg('xxx') // => promise1
-//     .then(upload) // => promise2
-//     .then(function() { // => promise2
-//         console.log('done');
-//     })
-//     .then(function() { // => promise2
-//         console.log('balabala...');
-//     });
+function sleep(ms) {
+    return function(v) {
+        var p = Promise();
+
+        setTimeout(function() {
+            p.resolve(v);
+        }, ms);
+
+        return p;
+    };
+};
