@@ -111,6 +111,6 @@ var print = function(v) {
     };
 };
 
-console.log('memoryUsage', process.memoryUsage().heapUsed);
+// console.log('memoryUsage', process.memoryUsage().heapUsed);
 sync2.then(print).then(read).then(delay(300)).then(write);
 sync2.then(print);

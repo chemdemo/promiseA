@@ -11,7 +11,7 @@ function getImg(url) {
         p.reject(err);
     }
 
-    img.src = url + '?_t=' + Date.now();
+    img.src = url;
 
     return p;
 };
@@ -39,6 +39,14 @@ function upload(params) {
     xhr.send(fd);
 
     return p;
+};
+
+function getData(json) {
+    return Promise(function(resolve) {
+        $.getJSON(json, function(data) {
+            resolve(data);
+        });
+    });
 };
 
 function sleep(ms) {

@@ -8,40 +8,71 @@
         margin: 0;
         padding: 0;
     }
+
+    li {
+        text-align: center;
+        line-height: 100px;
+        width: 150px;
+        height: 100px;
+        border: 1px solid #DDD;
+        margin-bottom: 10px;
+    }
+
+    img {
+        max-width: 150px;
+        max-height: 100px;
+    }
 </style>
 </head>
 <body>
     <h1>promise demo</h1>
 
-    <p>
-        <input id="url" value="http://img1.ph.126.net/6CSb5qM-iU85XEsEmxFDTQ==/6599320466959164391.jpg" />
-        <button id="btn">get url</button>
-    </p>
+    <p><button id="run">run demo</button></p>
+
+    <h4></h4>
 
     <ul id="list"></ul>
 
+    <p id="done" style="display: none;">done!</p>
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <script src="../lib/Promise.js"></script>
 <script src="browser.js"></script>
 <script>
-function $(id) {return document.querySelector(id);};
-function on(el, evt, fn) {el.addEventListener(evt, fn);};
 
 window.onload = function() {
     function addImg(img) {
-        var li = document.createElement('li');
-
-        li.appendChild(img);
-
-        $('#list').appendChild(li);
+        $('#list').find('> li:last-child').html('').append(img);
     };
 
-    function workflow() {
-        getImg($('#url').value)
-            .then(sleep(1000))
-            .then(addImg);
+    function run() {
+        $('#done').hide();
+        getData('map.json')
+            .then(function(data) {
+                $('h4').html(data.name);
+
+                return data.list.reduceRight(function(promise, item) {
+                    return promise
+                        .then(function() {
+                            $('<li>')
+                                .html('loading...')
+                                .attr('title', item.desc)
+                                .appendTo($('#list'));
+                        })
+                        .then(sleep(1000))
+                        .then(function() {
+                            return getImg(item.url);
+                        })
+                        .then(addImg);
+                }, Promise.resolve());
+            })
+            .then(sleep(300))
+            .then(function() {
+                $('#done').show();
+            });
     };
 
-    on($('#btn'), 'click', workflow);
+    $('#run').on('click', run);
 };
 </script>
 </body>
