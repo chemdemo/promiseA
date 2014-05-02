@@ -1,7 +1,7 @@
 var fs = require('fs');
 var assert = require('assert');
 
-var Promise = require('./simple-promise');
+var Promise = require('../lib/Promise');
 
 var testFile = __filename;
 
