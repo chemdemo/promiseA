@@ -5,7 +5,7 @@ A simple Promises/A+ implementation.
 ## Useage
 
 ``` javascript
-// way 1
+// useage 1
 var read = function(path) {
     var p = Promise();
     
@@ -17,7 +17,7 @@ var read = function(path) {
     return p;
 };
 
-// way 2
+// useage 2
 var write = function(data) {
     return Promise(function(resolve, reject) {
         fs.writeFile('bar.js', function(err) {
@@ -27,7 +27,7 @@ var write = function(data) {
     });
 };
 
-// way 3
+// useage 3
 var sleep = function(ms) {
     return function(v) {
         var p = Promise();
