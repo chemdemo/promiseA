@@ -1,10 +1,10 @@
-promiseA
+# PromiseA
 
 A simple Promises/A+ implementation.
 
 ## Useage
 
-``` javascript
+``` js
 // useage 1
 var read = function(path) {
     var p = Promise();
@@ -76,3 +76,7 @@ read('foo.js')
 ## Idea About Promise
 
 [JavaScript Promise](https://github.com/chemdemo/chemdemo.github.io/issues/6)
+
+## Licence
+
+MIT.
